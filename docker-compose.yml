@@ -1,0 +1,50 @@
+# ──────────────────────────────────────────────────────────────────
+# NLP Sentiment Analyzer — Docker Compose
+# Starts both the FastAPI backend and Streamlit UI
+# ──────────────────────────────────────────────────────────────────
+version: "3.9"
+
+services:
+  # ── FastAPI Backend ───────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sentiment-api
+    command: python scripts/run_api.py --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+      - ./reports:/app/reports
+      - ./logs:/app/logs
+    environment:
+      - LOG_LEVEL=INFO
+      - MODEL_PATH=models/sentiment_classifier
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # ── Streamlit UI ─────────────────────────────────────────────────
+  ui:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sentiment-ui
+    command: streamlit run src/ui/app.py --server.port 8501 --server.address 0.0.0.0 --browser.gatherUsageStats=false
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./models:/app/models
+      - ./data:/app/data
+    environment:
+      - API_URL=http://api:8000
+    depends_on:
+      api:
+        condition: service_healthy
+    restart: unless-stopped

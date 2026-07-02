@@ -1,0 +1,21 @@
+# ── Docker Ignore ─────────────────────────────────────────────
+.venv/
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.git/
+.gitignore
+*.log
+logs/
+notebooks/.ipynb_checkpoints/
+.idea/
+.vscode/
+data/raw/*.csv
+data/raw/*.json
+data/raw/*.tsv
+models/*
+!models/.gitkeep
+*.zip
+*.tar.gz
+AIML.zip
