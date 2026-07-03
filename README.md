@@ -6,7 +6,7 @@
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://python.org)
 [![PyTorch](https://img.shields.io/badge/PyTorch-2.0+-ee4c2c.svg)](https://pytorch.org)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-009688.svg)](https://fastapi.tiangolo.com)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 
 ## 🏗 Architecture Overview
 
@@ -276,10 +276,6 @@ The model handles 5 languages via a detect → translate → classify pipeline:
 2. **Translate** non-English text to English using `deep-translator` (Google Translate API)
 3. **Classify** sentiment using the fine-tuned BERT model
 4. **Return** result with original language tag
-
-## 📄 License
-
-MIT License — see [LICENSE](LICENSE) for details.
 
 ## 👤 Author
 
